@@ -29,7 +29,7 @@ jobs:
           tags: ghcr.io/${{ env.OWNER_LC }}/backend-api:${{ github.sha }}
 
       - name: Scan image with Trivy
-        uses: aquasecurity/trivy-action@0.24.0
+        uses: aquasecurity/trivy-action@v0.35.0
         with:
           image-ref: ghcr.io/${{ env.OWNER_LC }}/backend-api:${{ github.sha }}
           format: table
