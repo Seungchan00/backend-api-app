@@ -1,0 +1,5 @@
+# CVE-2026-59873: node-tar DoS via gzip bomb
+# npm CLI 내부에 번들된 tar 패키지에서 발생하는 취약점.
+# 런타임 이미지는 "node src/index.js"만 실행하고 npm을 호출하지 않으므로
+# 공격 경로(untrusted tar 압축 해제)가 존재하지 않음. 리스크 수용.
+CVE-2026-59873
