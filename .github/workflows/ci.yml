@@ -59,3 +59,23 @@ jobs:
           push: true
           platforms: linux/amd64,linux/arm64
           tags: ghcr.io/${{ env.OWNER_LC }}/backend-api:${{ github.sha }}
+
+      - name: Checkout GitOps repo
+        uses: actions/checkout@v4
+        with:
+          repository: Seungchan00/backend-api-gitops
+          ssh-key: ${{ secrets.GITOPS_DEPLOY_KEY }}
+          path: gitops
+
+      - name: Update image tag with yq
+        run: |
+          yq -i '.image.tag = "${{ github.sha }}"' gitops/helm-charts/my-app/values/values-dev.yaml
+
+      - name: Commit and push to GitOps repo
+        run: |
+          cd gitops
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add helm-charts/my-app/values/values-dev.yaml
+          git commit -m "chore: update dev image tag to ${{ github.sha }}"
+          git push
